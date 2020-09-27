@@ -1,0 +1,545 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Node.ts svc-bootstrap docs",
+    "version": "2.0.0",
+    "title": "svc-bootstrap",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "tuiteraz@gmail.com"
+    }
+  },
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User Authentication"
+    },
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Users list successfully received"
+          },
+          "404": {
+            "description": "No users exist"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete users by provided ids",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Array of user ids to delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserIdsList"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "At least one user was deleted"
+          },
+          "404": {
+            "description": "None of the provided ids matches an existing user"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user by id",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "description": "User id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully retrieved"
+          },
+          "404": {
+            "description": "User does not exist"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user by id",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "description": "User id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User successfully deleted"
+          },
+          "404": {
+            "description": "User with provided id not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/authenticate": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User authentication",
+        "description": "Checks provided credentials and set http-only cookie auth-token. Which is send back to service automatically with every request. Return user attributes.",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User credentials",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCredentials"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully logged in"
+          },
+          "400": {
+            "description": "Wrong password"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "422": {
+            "description": "Provided credentials have not passed the validation"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/authenticate/remove-token": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Remove auth-token cookie from response.",
+        "description": "In other words - this is log out operation. Currently not possible to check this using swagger with http-only cookie.",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Reset password token",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserAuthToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Auth token is valid"
+          },
+          "403": {
+            "description": "Auth token is not valid"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Register user",
+        "description": "Perform validations & checks and create new user",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created new user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User successfully created"
+          },
+          "409": {
+            "description": "User already exists"
+          },
+          "422": {
+            "description": "Validation error"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/reset-password/send-confirmation": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Send reset password email confirmation",
+        "description": "Generates reset password token and sends the email confirmation with it",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Email address",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reset password email sucessfully sent"
+          },
+          "404": {
+            "description": "User with such email not found"
+          },
+          "405": {
+            "description": "Previous reset password hash is still valid"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/reset-password/validate-token": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Check if reset password token is valid",
+        "description": "Checks if provided reset password token is valid and can be used for password change",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Reset password token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserResetPasswordToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reset Password token is valid"
+          },
+          "403": {
+            "description": "Reset Password token is not valid"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/reset-password": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Updates the user with new password",
+        "description": "Updates the user with new provided password if token is valid.",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Reset password token and new password payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserResetPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password successfully updated"
+          },
+          "403": {
+            "description": "Reset Password token is not valid"
+          },
+          "422": {
+            "description": "Provided new password is not valid or mismatches confirmation"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/verify-email": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Verify user email",
+        "description": "Verify user using email verification token",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Email verification token",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email sucessfully verified"
+          },
+          "403": {
+            "description": "Provided verification hash is not valid"
+          },
+          "409": {
+            "description": "User already verified"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/verify-email/send-confirmation": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Send verification email",
+        "description": "Triggers send verification email",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Email address",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification email sucessfully sent"
+          },
+          "404": {
+            "description": "User with such email not found"
+          },
+          "405": {
+            "description": "Previous email hash is still valid"
+          },
+          "409": {
+            "description": "User already verified"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "UserAuthToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserAuthToken"
+      }
+    },
+    "UserCredentials": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserCredentials"
+      }
+    },
+    "UserEmail": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserEmail"
+      }
+    },
+    "UserEmailToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserEmailToken"
+      }
+    },
+    "UserResetPassword": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserResetPassword"
+      }
+    },
+    "UserResetPasswordToken": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "UserResetPasswordToken"
+      }
+    },
+    "UserIdsList": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

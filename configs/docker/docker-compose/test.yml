@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  svc-bootstrap-test-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=$SVC_POSTGRES_USER
+      - POSTGRES_PASSWORD=$SVC_POSTGRES_PASSWORD
+      - POSTGRES_PORT=$SVC_POSTGRES_PORT
+    ports:
+      - "$SVC_POSTGRES_PORT:$SVC_POSTGRES_PORT"
+    command: -p $SVC_POSTGRES_PORT
+    volumes:
+      - svc-bootstrap-db-test-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  svc-bootstrap-db-test-data:
+
+

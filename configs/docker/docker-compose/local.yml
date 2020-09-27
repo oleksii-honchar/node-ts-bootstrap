@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  svc-bootstrap:
+    container_name: $CONTAINER_NAME
+    build:
+      context: ../../../
+      dockerfile: ./configs/docker/Dockerfile
+    environment:
+      - ENV_NAME=local
+      - SEED_MODE=$SEED_MODE
+    volumes:
+      - ../../../:/usr/src/svc-aplication/
+    ports:
+      - "$SVC_PORT:$SVC_PORT"
+      - "$SVC_DEBUG_PORT:$SVC_DEBUG_PORT"
+    depends_on:
+      - svc-bootstrap-db
+    links:
+      - "svc-bootstrap-db:$SVC_POSTGRES_HOST"
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "10k"
+        max-file: "3"
+    networks:
+      - default
+
+  svc-bootstrap-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=$SVC_POSTGRES_USER
+      - POSTGRES_PASSWORD=$SVC_POSTGRES_PASSWORD
+      - POSTGRES_PORT=$SVC_POSTGRES_PORT
+    ports:
+      - "$SVC_POSTGRES_PORT:$SVC_POSTGRES_PORT"
+    command: -p $SVC_POSTGRES_PORT
+    volumes:
+      - svc-bootstrap-db-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  svc-bootstrap-db-data:
+
+

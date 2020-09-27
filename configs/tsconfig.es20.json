@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "..",
+    "declaration": false,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "module": "commonjs",
+    "newLine": "lf",
+    "noEmit": true,
+    "noImplicitAny": false,
+    "noLib": false,
+    "noStrictGenericChecks": true,
+    "paths": {
+      "@src/*": [ "src/*" ],
+      "package.json": [ "../package.json"]
+    },
+    "removeComments": true,
+    "skipLibCheck": false,
+    "sourceMap": true,
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es2019",
+    "typeRoots": [
+      "../node_modules/@types",
+      "../src/typings"
+    ]
+  },
+  "include": [
+    "../src/**/*"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../configs",
+    "../dist",
+    "../docs",
+    "../coverage",
+    "../devops"
+  ]
+}

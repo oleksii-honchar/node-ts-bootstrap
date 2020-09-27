@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  svc-bootstrap:
+    container_name: $CONTAINER_NAME
+    build:
+      context: ../../../
+      dockerfile: ./configs/docker/Dockerfile
+    environment:
+      - ENV_NAME=development
+      - SVC_POSTGRES_PASSWORD=$SVC_POSTGRES_PASSWORD
+      - SVC_SECRET_KEY=$SVC_SECRET_KEY
+      - SVC_MAILER_HOST=$SVC_MAILER_HOST
+      - SVC_MAILER_ACCOUNT_USER=$SVC_MAILER_ACCOUNT_USER
+      - SVC_MAILER_ACCOUNT_PASSWORD=$SVC_MAILER_ACCOUNT_PASSWORD
+    ports:
+      - "$SVC_PORT:$SVC_PORT"
+      - "$SVC_DEBUG_PORT:9229"
+    depends_on:
+      - svc-bootstrap-db
+    links:
+      - "svc-bootstrap-db:$SVC_POSTGRES_HOST"
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "10k"
+        max-file: "3"
+    networks:
+      - default
+
+  svc-bootstrap-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=$SVC_POSTGRES_USER
+      - POSTGRES_PASSWORD=$SVC_POSTGRES_PASSWORD
+    ports:
+      - "$SVC_POSTGRES_PORT:$SVC_POSTGRES_PORT"
+    command: -p $SVC_POSTGRES_PORT
+    volumes:
+      - svc-bootstrap-db-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  svc-bootstrap-db-data:
+
+

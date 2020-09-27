@@ -1,0 +1,14 @@
+coverage
+dist
+**/dist
+node_modules
+**/node_modules
+project.env
+project.env.dist
+.git
+.editorconfig
+.idea
+.npmrc
+.vscode
+*.crt
+*.key

@@ -1,0 +1,33 @@
+export const ERROR_REASONS = {
+  ACCESS_DENIED: "Access denied",
+  ATTRIBUTE_IS_NOT_UNIQUE: "Attribute is not unique",
+  EMAIL_VERIFICATION_FAILED: "Email verification failed",
+  EMAIL_ALREADY_VERIFIED: "Email already verified",
+  EMAIL_NOT_VERIFIED: "Email not verified",
+  ALREADY_EXISTS: "Already exists",
+  HASH_VALID: "Email verification valid",
+  INTERNAL_SERVER_ERROR: "Internal server error",
+  NOT_FOUND: "Not found",
+  RESET_PASSWORD_HASH_NOT_VALID: "reset password not valid",
+  VALIDATION: "Validation",
+  VALIDATION_NOT_PASSED: "Validation not passed",
+  WRONG_PASSWORD: "Wrong password",
+};
+
+export const ERROR_MESSAGES = {
+  ATTRIBUTE_IS_NOT_UNIQUE: "Attribute is not unique",
+  ALREADY_EXISTS: "Entity already exists",
+  ENTITY_DOES_NOT_EXIST: "Entity does not exist",
+  EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is not valid",
+  EMAIL_ALREADY_VERIFIED: "The email has already been verified",
+  EMAIL_NOT_VERIFIED: "The email not yet verified",
+  EMAIL_NOT_PROVIDED: "The email not provided",
+  HASH_VALID: "Existing email verification mail is valid",
+  INTERNAL_SERVER_ERROR: "Internal server error",
+  PASSWORD_MISMATCH: "Passwords do not match",
+  RESET_PASSWORD_HASH_NOT_VALID: "Reset password hash is not valid",
+  TOKEN_MISSED: "Token missed",
+  USER_NOT_EXIST: "User does not exist",
+  USER_NOT_PROVIDED: "The user id not provided",
+  WRONG_PASSWORD: "Wrong password provided",
+};
