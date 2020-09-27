@@ -33,4 +33,5 @@ WORKDIR /usr/src/svc-application
 COPY ./package.json ./package.json
 COPY ./package-lock.json ./package-lock.json
 RUN npm i --production
+
 COPY --from=build /tmp/dist ./dist

@@ -20,3 +20,6 @@ elif [[ "$ENV_NAME" == "qa" ]]; then
 else
     npm run launch
 fi
+
+# for debug only
+#while :; do echo 'Hit CTRL+C'; sleep 1; done

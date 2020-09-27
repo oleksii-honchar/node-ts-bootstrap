@@ -1,6 +1,7 @@
 import pg from "pg";
 import sequelize, { Sequelize } from "sequelize";
-import { userModel, setupModelAssociations } from "@src/models";
+// import { userModel, setupModelAssociations } from "@src/models";
+import { userModel } from "@src/models";
 
 import { getLogger, Logger } from "@src/utils/logger";
 
@@ -95,7 +96,7 @@ class DbService {
   public async initAllModels(): Promise<void> {
     userModel.initModel({ sequelize: this.sequelize });
 
-    setupModelAssociations({ sequelize: this.sequelize });
+    // setupModelAssociations({ sequelize: this.sequelize });
 
     await this.sequelize.sync({ alter: true });
   }

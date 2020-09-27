@@ -10,7 +10,7 @@ services:
       - ENV_NAME=local
       - SEED_MODE=$SEED_MODE
     volumes:
-      - ../../../:/usr/src/svc-aplication/
+      - ../../../:/usr/src/svc-application/
     ports:
       - "$SVC_PORT:$SVC_PORT"
       - "$SVC_DEBUG_PORT:$SVC_DEBUG_PORT"
@@ -18,7 +18,7 @@ services:
       - svc-bootstrap-db
     links:
       - "svc-bootstrap-db:$SVC_POSTGRES_HOST"
-    restart: always
+    restart: "no"
     logging:
       driver: json-file
       options:
