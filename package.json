@@ -36,7 +36,7 @@
       "pre-commit": "npm run check:all"
     }
   },
-  "author": "AgileEngine",
+  "author": "Oleksii Honchar",
   "license": "MIT",
   "dependencies": {
     "env-cmd": "10.1.0",
