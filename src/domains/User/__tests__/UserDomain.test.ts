@@ -3,7 +3,7 @@
 // import { has as _has } from "lodash";
 
 import { dbService, userService } from "@src/services";
-// import { UserDomain } from "@src/domains";
+import { UserDomain } from "@src/domains";
 
 describe.skip("[INTEGRATION] UserDomain", () => {
   beforeAll(async () => {
@@ -15,4 +15,5 @@ describe.skip("[INTEGRATION] UserDomain", () => {
     await dbService.sequelize.query("drop table if exists Users, UserRoles cascade");
     await dbService.sequelize.sync({ force: true });
   });
+  test.skip("", () => {});
 });

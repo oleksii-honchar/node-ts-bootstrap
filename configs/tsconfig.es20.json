@@ -21,7 +21,7 @@
     "noStrictGenericChecks": true,
     "paths": {
       "@src/*": [ "src/*" ],
-      "package.json": [ "../package.json"]
+      "package.json": [ "package.json"]
     },
     "removeComments": true,
     "skipLibCheck": false,
